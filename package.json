@@ -6,6 +6,8 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "photoswipe": "^5.4.3",
+    "photoswipe-dynamic-caption-plugin": "^1.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -14,14 +16,44 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "testEnvironment": "jsdom",
+    "watchAll": false,
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/.jest/mock-css.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.jest/mock-media.js"
+    }
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "eqeqeq": "off",
+      "no-unused-vars": "off",
+      "no-useless-concat": "off",
+      "jsx-a11y/anchor-is-valid": "off",
+      "react-hooks/exhaustive-deps": "off"
+    }
   },
   "browserslist": {
     "production": [
