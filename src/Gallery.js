@@ -1,44 +1,25 @@
-import logo from './logo.svg';
 import './Gallery.css';
-import GalleryStardewValley from './games/GalleryStardewValley';
+import GalleryView from './GalleryView';
+
+// Gallery data
+import { galleryID_StardewValley_TMAFarm, images_StardewValley_TMAFarm } from './games/StardewValley/g_StardewValley_TMAFarm';
+
 
 function Gallery() {
   return (
+    <>
+      <div className="header">
+        <span className="header-title">Stardew Valley – TMA Farm (2023-24)</span>
+      </div>
+      <div className="gallery" id={"gallery--" + galleryID_StardewValley_TMAFarm}>
 
-    <div className="gallery">
+        <GalleryView
+          galleryID={galleryID_StardewValley_TMAFarm}
+          images={images_StardewValley_TMAFarm}
+        />
 
-      <GalleryStardewValley
-        galleryID="stardew-valley"
-        images={[
-          {
-            largeURL:
-              'https://cdn.photoswipe.com/photoswipe-demo-images/photos/1/img-2500.jpg',
-            thumbnailURL:
-              'https://cdn.photoswipe.com/photoswipe-demo-images/photos/1/img-200.jpg',
-            width: 1875,
-            height: 2500,
-          },
-          {
-            largeURL:
-              'https://cdn.photoswipe.com/photoswipe-demo-images/photos/2/img-2500.jpg',
-            thumbnailURL:
-              'https://cdn.photoswipe.com/photoswipe-demo-images/photos/2/img-200.jpg',
-            width: 1669,
-            height: 2500,
-          },
-          {
-            largeURL:
-              'https://cdn.photoswipe.com/photoswipe-demo-images/photos/3/img-2500.jpg',
-            thumbnailURL:
-              'https://cdn.photoswipe.com/photoswipe-demo-images/photos/3/img-200.jpg',
-            width: 2500,
-            height: 1666,
-          },
-        ]}
-      />
-      
-    </div>
-
+      </div>
+    </>
   );
 }
 

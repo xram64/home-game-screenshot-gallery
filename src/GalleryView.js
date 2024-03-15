@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipeDynamicCaption from 'photoswipe-dynamic-caption-plugin';
-// import 'photoswipe/style.css';
-import '../photoswipe/photoswipe.css';
-import '../photoswipe/photoswipe-dynamic-caption-plugin.css';
+import './photoswipe/photoswipe.css';
+import './photoswipe/photoswipe-dynamic-caption-plugin.css';
 
-export default function GalleryStardewValley(props) {
+export default function GalleryView(props) {
   useEffect(() => {
 
     let lightbox = new PhotoSwipeLightbox({
@@ -29,11 +28,11 @@ export default function GalleryStardewValley(props) {
       // • 'below' - caption will always be placed below the image
       // • 'aside' - caption will always be placed on the right side of the image
       // • 'auto' - the plugin will try to automatically determine the best position (depending on available space)
-      type: 'aside',
+      type: 'below',
 
       // Maximum window width at which mobile layout should be used,
       //  or a function that should return true if mobile layout should be used.
-      mobileLayoutBreakpoint: 700,
+      // mobileLayoutBreakpoint: 700,
 
       // A ratio defines the amount of horizontal empty space before the mobile caption switches to an "overlap" layout.
       // For example, if it's set to 0.3 - the caption will start overlapping the image when more than 30% of horizontal
@@ -64,22 +63,19 @@ export default function GalleryStardewValley(props) {
     <div className="pswp-gallery" id={props.galleryID}>
       {props.images.map((image, index) => (
         <>
-
           <a
-            href={image.largeURL}
+            href={image.fullURL}
             data-pswp-width={image.width}
             data-pswp-height={image.height}
             key={props.galleryID + '-' + index}
             target="_blank"
             rel="noreferrer"
           >
-            <img src={image.thumbnailURL} alt="" />
+            <img
+              src={image.thumbURL}
+            />
+            <div class="pswp-caption-content">{image.caption}</div>
           </a>
-
-          <div class="pswp-caption-content">
-            Test image caption...
-          </div>
-
         </>
       ))}
     </div>
