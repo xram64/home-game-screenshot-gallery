@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import _ from 'lodash';
+import React, { useEffect, useState, useRef } from 'react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipeDynamicCaption from 'photoswipe-dynamic-caption-plugin';
 import './photoswipe/photoswipe.css';
 import './photoswipe/photoswipe-dynamic-caption-plugin.css';
 
+// [GalleryView]
 export default function GalleryView(props) {
+  // PhotoSwipe hook
   useEffect(() => {
 
     let lightbox = new PhotoSwipeLightbox({
@@ -59,25 +62,26 @@ export default function GalleryView(props) {
 
   }, []);
 
+
   return (
-    <div className="pswp-gallery" id={props.galleryID}>
+    <div className="pswp-gallery" id={props.galleryID} ref={props.galleryContainerRef}>
       {props.images.map((image, index) => (
-        <>
-          <a
-            href={image.fullURL}
-            data-pswp-width={image.width}
-            data-pswp-height={image.height}
-            key={props.galleryID + '-' + index}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <img
-              src={image.thumbURL}
-            />
-            <div class="pswp-caption-content">{image.caption}</div>
-          </a>
-        </>
+        <a
+          className={`pswp-gallery-item session-${image.sessionIndex}`}
+          href={image.fullURL}
+          data-pswp-width={image.width}
+          data-pswp-height={image.height}
+          data-session={image.sessionIndex}
+          key={props.galleryID + '-' + index}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src={image.thumbURL} />
+          <div className="pswp-caption-content">{image.caption}</div>
+        </a>
       ))}
     </div>
   );
 }
+
+
