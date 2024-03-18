@@ -7,7 +7,7 @@ import './photoswipe/photoswipe-dynamic-caption-plugin.css';
 
 // [GalleryView]
 export default function GalleryView(props) {
-  // PhotoSwipe hook
+  // Set up PhotoSwipe and caption plugin
   useEffect(() => {
 
     let lightbox = new PhotoSwipeLightbox({
@@ -62,6 +62,28 @@ export default function GalleryView(props) {
 
   }, []);
 
+  // Apply per-session styles to gallery thumbnails (<a> elements)
+  useEffect(() => {
+    let sessionStyles = '';
+
+    // Apply a unique style to each session.
+    _.forEach(props.sessionIndexList, (sessionIndex) => {
+      // const hue = 360 * (sessionIndex / props.sessionIndexList.length);  // `hue` out of 360 degrees
+      const hue = (137 * sessionIndex) % 360;  // Generate sequentially-distinct hues.
+      const boxShadowColor = `hsl(${hue}deg 50% 40% / 90%)`  // 90% alpha
+      sessionStyles += `.session-${sessionIndex} { box-shadow: 0px 0px 4px 1px ${boxShadowColor}; }\n`;
+    });
+
+    const sessionStyleSheet = document.createElement('style');
+    sessionStyleSheet.innerText = sessionStyles;
+    document.head.appendChild(sessionStyleSheet);
+
+    // Clean up styles when the component unmounts
+    return () => {
+      document.head.removeChild(sessionStyleSheet);
+    };
+  }, []);
+
 
   return (
     <div className="pswp-gallery" id={props.galleryID} ref={props.galleryContainerRef}>
@@ -72,12 +94,16 @@ export default function GalleryView(props) {
           data-pswp-width={image.width}
           data-pswp-height={image.height}
           data-session={image.sessionIndex}
+          data-session-edge={image.sessionEdge}
           key={props.galleryID + '-' + index}
           target="_blank"
           rel="noreferrer"
         >
-          <img src={image.thumbURL} />
-          <div className="pswp-caption-content">{image.caption}</div>
+          <div className="gallery-thumb-container">
+            <img src={image.thumbURL} />
+            <div className="gallery-thumb-tooltip">{image.tooltip}</div>
+            <div className="pswp-caption-content">{image.caption}</div>
+          </div>
         </a>
       ))}
     </div>

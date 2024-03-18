@@ -29,7 +29,7 @@ _.forEach(sessionIndexToFilenames, (session, sessionIndex) => {
   const sessionFileList = session['files'];
 
   // Iterate over files in the session file list
-  sessionFileList.forEach(img_name => {
+  sessionFileList.forEach((img_name, img_idx) => {
 
     // Parse metadata from image filename
     const img_datetime_str = img_name.split('_')[0];
@@ -37,12 +37,26 @@ _.forEach(sessionIndexToFilenames, (session, sessionIndex) => {
 
     // Construct HTML caption as JSX
     const caption = (
-      <span className="caption-text">
+      <span className="caption-content-text">
         {/* <strong>Stardew Valley – TMA Farm</strong> */}
         {/* <br /> */}
         <strong>Session {sessionIndex}</strong> ({img_datetime.weekdayShort} {img_datetime.fullDateShort}) | {img_datetime.fullTime12hr}
       </span>
     )
+
+    // Construct HTML tooltip as JSX
+    const tooltip = (
+      <span className="gallery-thumb-tooltip-text">
+        <strong>Session {sessionIndex}</strong> ({img_datetime.fullDateShort})
+      </span>
+    )
+    
+    // Add 'edge' tags to indicate the first and last files in the session.
+    var sessionEdge = '';     // Default empty string: Not an edge
+    if (img_idx === 0)
+      sessionEdge = 'first';  // First image in session
+    else if (img_idx === sessionFileList.length - 1)
+      sessionEdge = 'last';   // Last image in session
 
     // Add the image to the list
     images_StardewValley_TMAFarm.push(
@@ -52,8 +66,10 @@ _.forEach(sessionIndexToFilenames, (session, sessionIndex) => {
         width: 1920,
         height: 1017,
         caption: caption,
-        sessionIndex: sessionIndex,
+        tooltip: tooltip,
         sessionDate: sessionDate,
+        sessionIndex: sessionIndex,
+        sessionEdge: sessionEdge,
       }
     )
   });
@@ -131,11 +147,12 @@ function generateSessionList(filenames) {
   return sessionIndexToFilenames;
 }
 
-// Function to scroll to the location of a selected session index
+// Function to scroll to the location of a selected session index.
 // Used as the `onNavigate` function in GalleryNavigation.
 export const navHandler_StardewValley_TMAFarm = (targetSessionIndex) => {
   const targetElement = document.querySelector(`a[data-session='${targetSessionIndex}']`);
   if (targetElement) {
     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // window.scrollBy(0, -4);  // Scroll up a bit so the target thumbnails aren't at the edge of the screen
   }
 }

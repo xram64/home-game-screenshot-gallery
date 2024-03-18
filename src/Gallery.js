@@ -14,7 +14,7 @@ import { useScrollHandler } from './games/StardewValley/g_StardewValley_TMAFarm_
 
 // [Gallery]
 export default function Gallery() {
-  // TODO: Consider generalizing this custom hook
+  // TODO: Consider generalizing this custom hook to deal with different grouping methods.
   const { currentSessionScrollIndex, galleryContainerRef } = useScrollHandler();
 
   return (
@@ -22,7 +22,7 @@ export default function Gallery() {
       <div className="header">
         <span className="header-title">Stardew Valley – TMA Farm (2023-24)</span>
       </div>
-      <div className="gallery" id={"gallery--" + galleryID_StardewValley_TMAFarm}>
+      <div className="content" id={"gallery--" + galleryID_StardewValley_TMAFarm}>
 
         <GalleryNavigation
           galleryID={galleryID_StardewValley_TMAFarm}
@@ -35,6 +35,7 @@ export default function Gallery() {
         <GalleryView
           galleryID={galleryID_StardewValley_TMAFarm}
           images={images_StardewValley_TMAFarm}
+          sessionIndexList={sessionIndexList_StardewValley_TMAFarm}
           galleryContainerRef={galleryContainerRef}
         />
 
